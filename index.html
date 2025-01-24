@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Szabadság Nyilvántartás</title>
+    <link rel="stylesheet" href="Style/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button id="prevMonth" class="nav-button">‹</button>
+            <h1 id="monthYear">Január 2025</h1>
+            <button id="nextMonth" class="nav-button">›</button>
+        </div>
+        <input type="file" id="fileInput" accept=".xlsx" />
+        <button id="currentMonthButton" class="today-button">Aktuális hónap</button>
+            <div class="helperbox"> 
+                <text id="currentMonthButton" class="text">Jelmagyarázat:</text>
+                <button id="vacation" class="helpbutton">Szabadság</button>
+                <button id="sick" class="helpbutton">Beteg szabadság</button>
+                <button id="planned-vacation" class="helpbutton">Tervezett szabadság</button>
+            </div>
+        <div id="calendar" class="calendar"></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
