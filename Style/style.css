@@ -1,3 +1,4 @@
+
 :root {
     --primary-color: #5d5fef;
     --primary-color-dark: #4b4dbf;
@@ -213,4 +214,22 @@ h1 {
     .calendar {
         grid-template-columns: repeat(3, 1fr);
     }
+}
+.view-button {
+    background-color: #64b6f8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.view-button:hover {
+    background: #09549b;
+}
+.view-button.active {
+    background-color: #09549b; /* Aktív gomb szín */
+    font-weight: bold;
 }

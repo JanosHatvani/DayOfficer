@@ -1,8 +1,3 @@
-//első körben az adatok tárolására a localstorage lenne jó, de minden egyes alkalommal, amikor bezárásra kerül az alkalmazás
-//vagy frissítésr kerül az oldal, újra betöltésre kerül a szabadság betöltő file
-//a dátum formázását egyszerűsíteni kell illetve a dáum kinyerését az excelből. Nem futásidőben, szimplán logikában nem éppen értelmes, amit találtam erre.
-//
-
 // Az aktuális hónap deklarálás
 let currentMonth = new Date().getMonth(); 
 // Az aktuális év deklarálás
@@ -14,14 +9,9 @@ let events = [];
 // Dátum formázása Excel-stílusból YYYY-MM-DD formátumba, ha netán nem a megfelelő formátumot használnák
 function formatExcelDate(excelDate) {
     if (typeof excelDate === 'number') {
-        // Excel dátumok átváltása (Excel dátumok kezdete 1900. január 1.)
-        //kezdő dátum megállapítása
         const excelStartDate = new Date(1900, 0, 1);
-        // Egy nap millisekundumban
         const msInDay = 86400000; 
-        // Korrigáljuk a kezdő dátumot, azaz kiszámolásra kerül a kezdő dátumtól számítottan az aktuális nap
         const date = new Date(excelStartDate.getTime() + (excelDate - 2) * msInDay); 
-        // YYYY-MM-DD formátumba rendezés
         return date.toISOString().split('T')[0]; 
     }
     return '';
@@ -43,22 +33,18 @@ function renderCalendar() {
     const startDay = firstDay.getDay();
     const totalDays = lastDay.getDate();
 
-    // Hónap nevek
     const monthNames = [
         "Január", "Február", "Március", "Április", "Május", "Június",
         "Július", "Augusztus", "Szeptember", "Október", "November", "December"
     ];
-    //évszám meghatározás
     monthYear.textContent = `${monthNames[currentMonth]} ${currentYear}`;
 
-    // Kitöltés előző hónap napjaival
     for (let i = 0; i < startDay; i++) {
         const emptyDay = document.createElement("div");
         emptyDay.classList.add("day", "outside");
         calendar.appendChild(emptyDay);
     }
 
-    // Kitöltés aktuális hónap napjaival
     for (let day = 1; day <= totalDays; day++) {
         const dayDiv = document.createElement("div");
         dayDiv.classList.add("day");
@@ -66,17 +52,13 @@ function renderCalendar() {
 
         const fullDate = `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 
-        // Hozzáadás eseményekhez
         events.forEach(event => {
             if (event.date === fullDate) {
                 const eventDiv = document.createElement("div");
                 eventDiv.classList.add(
                     "entry",
-                    event.type === "szabadság"
-                        ? "vacation"
-                        : event.type === "betegszabadság"
-                        ? "sick"
-                        : "planned-vacation"
+                    event.type === "szabadság" ? "vacation" :
+                    event.type === "betegszabadság" ? "sick" : "planned-vacation"
                 );
                 eventDiv.textContent = event.name;
                 dayDiv.appendChild(eventDiv);
@@ -117,11 +99,9 @@ document.getElementById("fileInput").addEventListener("change", (event) => {
                 name: row[1],
                 type: row[2],
             };
-            // Csak a valid esemény kerül eltárolásra, ezzel megszűrve, hogy a 
         }).filter(event => event !== null); 
 
-        console.log('Valós események listája:', events);
-        renderCalendar(); // Naptár frissítése
+        renderCalendar();
     };
 
     reader.readAsArrayBuffer(file);
@@ -129,23 +109,92 @@ document.getElementById("fileInput").addEventListener("change", (event) => {
 
 // Navigáció gombok a következő<=>előző illetve az aktuális hónaphoz
 document.getElementById("prevMonth").addEventListener("click", () => {
-    currentMonth = (currentMonth - 1 + 12) % 12;
-    if (currentMonth === 11) currentYear--;
-    renderCalendar();
+    if (currentView === 'monthly') {
+        currentMonth = (currentMonth - 1 + 12) % 12;
+        if (currentMonth === 11) currentYear--;
+        renderCalendar();
+    } else if (currentView === 'weekly') {
+        currentWeekStart.setDate(currentWeekStart.getDate() - 7);
+        currentWeekEnd.setDate(currentWeekEnd.getDate() - 7);
+        renderWeeklyView();
+    }
 });
 
 document.getElementById("nextMonth").addEventListener("click", () => {
-    currentMonth = (currentMonth + 1) % 12;
-    if (currentMonth === 0) currentYear++;
-    renderCalendar();
+    if (currentView === 'monthly') {
+        currentMonth = (currentMonth + 1) % 12;
+        if (currentMonth === 0) currentYear++;
+        renderCalendar();
+    } else if (currentView === 'weekly') {
+        currentWeekStart.setDate(currentWeekStart.getDate() + 7);
+        currentWeekEnd.setDate(currentWeekEnd.getDate() + 7);
+        renderWeeklyView();
+    }
 });
 
-//évé s hónap meghatározása szükséges az adott hónaphoz való ugráshoz.
 document.getElementById("currentMonthButton").addEventListener("click", () => {
     currentMonth = new Date().getMonth();
     currentYear = new Date().getFullYear();
     renderCalendar();
 });
 
-// Alapértelmezett render
-renderCalendar(); // Az aktuális hónap betöltése
+// Heti nézet aktiválása
+let currentView = 'monthly'; // Alapértelmezett: havi nézet
+
+let currentWeekStart = getStartOfWeek(new Date()); // A hét kezdete
+let currentWeekEnd = new Date(currentWeekStart); // A hét vége (vasárnap)
+currentWeekEnd.setDate(currentWeekStart.getDate() + 6);
+
+// A hét kezdő dátuma
+function getStartOfWeek(date) {
+    const day = date.getDay(),
+          diff = date.getDate() - day + (day == 0 ? -6 : 1); 
+    return new Date(date.setDate(diff));
+}
+
+document.getElementById("weeklyViewButton").addEventListener("click", () => {
+    currentView = 'weekly'; // Heti nézet aktiválása
+    currentWeekStart = getStartOfWeek(new Date()); 
+    currentWeekEnd = new Date(currentWeekStart);
+    currentWeekEnd.setDate(currentWeekStart.getDate() + 6); // Hét vége
+    renderWeeklyView();
+});
+
+function renderWeeklyView() {
+    const calendar = document.getElementById("calendar");
+    const monthYear = document.getElementById("monthYear");
+
+    calendar.innerHTML = "";
+
+    let day = new Date(currentWeekStart);
+    while (day <= currentWeekEnd) {
+        const dayDiv = document.createElement("div");
+        dayDiv.classList.add("day");
+        dayDiv.innerHTML = `<strong>${day.getDate()}</strong>`;
+
+        const fullDate = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, "0")}-${String(day.getDate()).padStart(2, "0")}`;
+
+        events.forEach(event => {
+            if (event.date === fullDate) {
+                const eventDiv = document.createElement("div");
+                eventDiv.classList.add(
+                    "entry",
+                    event.type === "szabadság" ? "vacation" :
+                    event.type === "betegszabadság" ? "sick" : "planned-vacation"
+                );
+                eventDiv.textContent = event.name;
+                dayDiv.appendChild(eventDiv);
+            }
+        });
+
+        calendar.appendChild(dayDiv);
+        day.setDate(day.getDate() + 1);
+    }
+
+    monthYear.textContent = `Hét: ${currentWeekStart.toLocaleDateString("hu-HU")} - ${currentWeekEnd.toLocaleDateString("hu-HU")}`;
+}
+
+document.getElementById("monthlyViewButton").addEventListener("click", () => {
+    currentView = 'monthly'; // Havi nézet aktiválása
+    renderCalendar();
+});
