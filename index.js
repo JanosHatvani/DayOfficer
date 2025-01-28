@@ -27,30 +27,39 @@ function renderCalendar() {
         return;
     }
 
-    calendar.innerHTML = "";
+    calendar.innerHTML = ""; // Naptár törlése
+
     const firstDay = new Date(currentYear, currentMonth, 1);
     const lastDay = new Date(currentYear, currentMonth + 1, 0);
-    const startDay = firstDay.getDay();
+    const startDay = (firstDay.getDay() + 6) % 7; // Hétfő legyen a kezdő nap
     const totalDays = lastDay.getDate();
 
-    const monthNames = [
-        "Január", "Február", "Március", "Április", "Május", "Június",
-        "Július", "Augusztus", "Szeptember", "Október", "November", "December"
-    ];
-    monthYear.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+    const dayNames = ["Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat", "Vasárnap"];
+    
+    // Napok neveinek sora
+    dayNames.forEach(day => {
+        const dayHeader = document.createElement("div");
+        dayHeader.classList.add("day-header"); // CSS az igazításhoz
+        dayHeader.textContent = day;
+        calendar.appendChild(dayHeader);
+    });
 
+    // Üres helyek (nem aktuális napok előtt)
     for (let i = 0; i < startDay; i++) {
         const emptyDay = document.createElement("div");
         emptyDay.classList.add("day", "outside");
         calendar.appendChild(emptyDay);
     }
 
+    // Napok hozzáadása
     for (let day = 1; day <= totalDays; day++) {
         const dayDiv = document.createElement("div");
         dayDiv.classList.add("day");
         dayDiv.innerHTML = `<strong>${day}</strong>`;
 
         const fullDate = `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+        monthYear.textContent = `${currentYear} ${new Date(currentYear, currentMonth).toLocaleDateString("hu-HU", { month: "long" })}`;
+
 
         events.forEach(event => {
             if (event.date === fullDate) {
@@ -68,6 +77,7 @@ function renderCalendar() {
         calendar.appendChild(dayDiv);
     }
 }
+
 
 // Fájl betöltése és események feldolgozása
 document.getElementById("fileInput").addEventListener("change", (event) => {
@@ -165,6 +175,15 @@ function renderWeeklyView() {
     const monthYear = document.getElementById("monthYear");
 
     calendar.innerHTML = "";
+
+    // Napok neveinek megjelenítése
+    const dayNames = ["Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat", "Vasárnap"];
+    dayNames.forEach(day => {
+        const dayHeader = document.createElement("div");
+        dayHeader.classList.add("day-header"); // CSS az igazításhoz
+        dayHeader.textContent = day;
+        calendar.appendChild(dayHeader);
+    });
 
     let day = new Date(currentWeekStart);
     while (day <= currentWeekEnd) {
