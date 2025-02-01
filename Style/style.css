@@ -1,125 +1,260 @@
 
 :root {
-    --primary-color: #5cd6e1;
-    --primary-color-dark: #4b4dbf;
-    --secondary-color: #131516;
-    --text-dark: #333333;
-    --text-light: #767268;
-    --extra-light: #f8f8f8;
-    --white: #ffffff;
+    --primary-color: #50e6ff; /* Kékes-lila fő szín */
+    --secondary-color: #2f3640; /* Sötét szürke szövegekhez */
+    --highlight-color: #ff6f61; /* Korall-piros kiemelő szín */
+    --background-color: #f1f2f6; /* Világos szürke háttér */
 }
 
-
-/* Alapvető stílusok */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-color);
     margin: 0;
     padding: 0;
-    background-color: #f7f8fa;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
 }
 
 .container {
-    max-width: 900px;
-    margin: 50px auto;
-    background: white;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    padding: 20px;
+    display: flex;
+    max-width: 1600px;
+    width: 100%;
+    margin-top: 40px;
+    gap: 30px;
+    padding: 30px;
+    box-sizing: border-box;
+    background-color: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
 
-.header {
+.left-side, .right-side {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.left-side {
+    width: 30%;
+}
+
+.right-side {
+    width: 70%;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     margin-bottom: 20px;
 }
 
+.header-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
 .nav-button {
-    background: #64b6f8;
-    color: white;
+    background-color: var(--primary-color);
+    color: var(--white);
     border: none;
-    border-radius: 5px;
-    padding: 8px 15px;
+    border-radius: 6px;
+    padding: 10px 15px;
     cursor: pointer;
     font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
 .nav-button:hover {
-    background: #09549b;
+    background-color: #02a3c0; /* Sötétebb lila árnyalat hover-re */
 }
 
-button#currentMonthButton {
-    display: inline-block;
-    border-radius: 5px;
-    padding: 8px 15px;
+h1 {
+    font-size: 25px;
+    color: var(--secondary-color);
+    font-weight: 700;
+    text-align: center;
+}
+
+.view-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
     margin-bottom: 20px;
-    margin-right: 30px;
-    cursor: pointer;
-    color: var(--text-dark);
-    border: 2px solid var(--text-light);
-    background-color: transparent;
-}
-text#currentMonthButton{
-    padding: 7px 15px;
-    margin-bottom: 20px;
-    color: var(--text-dark);
-}
-button#vacation{
-    background-color: #f15b5b;
-    font-weight: bold;
 }
 
-button#sick{
-    background-color: #f7c65b;
-    font-weight: bold;
-}
-
-button#planned-vacation{
-    background-color: #add8e6;
-    color: #000;
-    font-weight: bold;
-}
-
-button:hover {
-    background-color: #f3f4f6;
-  }
-  button:active {
-    background-color: #e5e7eb;
-  }
-
-.helpbutton{
-    display: inline-block;
-    margin-left: 3px;
-    color: white;
+.view-button,
+.today-button {
+    background-color: var(--primary-color);
+    color: var(--white);
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     padding: 8px 15px;
-    margin-bottom: 20px;
+    font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-/*megniytás gomb és text*/
-input#fileInput {
-    padding: 2px;
-    border-radius: 10px;  
-    padding-right: 5px;
-    background-color: transparent;
-  }
+.view-button:hover,
+.today-button:hover {
+    background-color: #02a3c0; /* Kékes-lila sötétebb árnyalata hover-re */
+}
 
-  
-input.textbox{
-    padding:110px;
-    font-size:14px;
-  }
-  input[type="file"] {
-    position: relative;
-    width: 310px;
-  }
-  input[type="file"]::file-selector-button {
+.helperbox {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.text {
+    font-size: 16px;
+    color: var(--secondary-color);
+}
+
+.helpbutton {
+    border: none;
+    margin: 5px;
+    padding: 8px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    padding-top: 10px;
+}
+
+.day {
+    background-color: var(--white);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 14px;
+    color: var(--secondary-color);
+}
+
+.day-header {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 10px;
+    font-weight: 600;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.entry {
+    background-color: #f0f0f0;
+    color: var(--secondary-color);
+    font-size: 12px;
+    padding: 10px;
+    width: 100px;
+    border-radius: 6px;
+    margin: 5px 0;
+    text-align: left;
+}
+
+.entry.vacation {
+    background-color: #919191; /* Szabadság sárga */
+    color: var(--white);
+    text-align: center;
+}
+
+.entry.sick {
+    background-color: #e74c3c; /* Betegség piros */
+    color: var(--white);
+    text-align: center;
+}
+
+.entry.planned-vacation {
+    background-color: #ebfa60; /* Tervezett szabadság zöld */
+    color: var(--white);
+    text-align: center;
+}
+
+button#vacation {
+    background-color: #919191;
+    color: var(--white);
+}
+
+button#sick {
+    background-color: #e74c3c;
+    color: var(--white);
+}
+
+button#planned-vacation {
+    background-color: #ebfa60;
+    color: var(--white);
+}
+
+button#prevmonth, button#nextmonth {
+    background-color: var(--highlight-color);
+    color: var(--white);
+    border: none;
+    border-radius: 6px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button#prevmonth:hover, button#nextmonth:hover {
+    background-color: #d25c53; /* Sötétebb korall-piros a hoverhez */
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .left-side, .right-side {
+        width: 100%;
+    }
+
+    .calendar {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+}
+
+input.textbox {
+    padding: 110px;
+    font-size: 14px;
+}
+
+input[type="file"]::file-selector-button {
     width: 136px;
     color: transparent;
-  }
-  input[type="file"]::before {
+}
+
+input[type="file"] {
+    display: block;
+    position: relative;
+    margin: 20px auto;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid var(--primary-color);
+    width: 75%;
+    background-color: var(--background-color);
+    font-size: 16px;
+}
+
+input[type="file"]::before {
     position: absolute;
     pointer-events: none;
     top: 10px;
@@ -129,135 +264,33 @@ input.textbox{
     content: "";
     background-image: url("../Icons/upload.svg");
     background-size: contain;
-  }
-  input[type="file"]::after {
+}
+
+input[type="file"]::after {
     position: absolute;
     pointer-events: none;
-    top: 15px;
-    left: 38px;
-    color: #0964b0;
+    top: 21px;
+    left: 41px;
     content: "Fájl tallózás";
-  }
-  input[type="file"]::file-selector-button {
+}
+
+input[type="file"]::file-selector-button {
     border-radius: 4px;
     padding: 0 16px;
     height: 40px;
     cursor: pointer;
-    background-color: white;
+    
+    background-color: var(--white);
     border: 1px solid rgba(0, 0, 0, 0.16);
     box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
     margin-right: 16px;
     transition: background-color 200ms;
-  }
-  input[type="file"]::file-selector-button:hover {
+}
+
+input[type="file"]::file-selector-button:hover {
     background-color: #f3f4f6;
-  }
-  input[type="file"]::file-selector -button:active {
+}
+
+input[type="file"]::file-selector-button:active {
     background-color: #e5e7eb;
-  }
-
-h1 {
-    font-size: 24px;
-    color: #333;
-}
-
-/* Naptár stílusok */
-
-
-.day {
-    background-color: white;
-    padding: 15px;
-    text-align: center;
-    font-size: 14px;
-    min-height: 100px;
-    position: relative;
-}
-
-.day.outside {
-    background-color: #f7f8fa;
-    color: #aaa;
-}
-
-.entry {
-    display: block;
-    font-size: 12px;
-    margin: 5px 0;
-    padding: 5px;
-    border-radius: 5px;
-    color: white;
-    font-weight: bold;
-    text-align: left;
-}
-
-.entry.vacation {
-    background-color: #f15b5b;
-}
-
-.entry.sick {
-    background-color: #f7c65b;
-}
-
-.entry.planned-vacation {
-    background-color: #add8e6; /* Világoskék szín */
-    color: #000; /* Sötétszürke szöveg */
-    font-weight: bold;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .calendar {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-.view-button {
-    background-color: #64b6f8;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 15px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-right: 10px;
-}
-
-.view-button:hover {
-    background: #09549b;
-}
-.view-button.active {
-    background-color: #09549b; /* Aktív gomb szín */
-    font-weight: bold;
-}
-.calendar {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr); /* 7 oszlop a hét napjaihoz */
-    gap: 1px;
-    border-radius: 8px;
-}
-
-.day-header {
-    background-color: var(--primary-color);
-    color: white;
-    font-weight: bold;
-    text-align: center;
-    padding: 10px 0;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    margin-left: 2px;
-}
-
-.day {
-    background-color: #cfcfcf;
-    padding: 15px;
-    text-align: center;
-    font-size: 14px;
-    min-height: 100px;
-    position: relative;
-    border-radius: 10px;
-    margin: 1px;
-}
-
-.day.outside {
-    background-color: #f7f8fa;
-    color: #aaa;
-    border-radius: 10px;
 }

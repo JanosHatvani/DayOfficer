@@ -1,3 +1,4 @@
+
 // Az aktuális hónap deklarálás
 let currentMonth = new Date().getMonth(); 
 // Az aktuális év deklarálás
@@ -217,3 +218,4 @@ document.getElementById("monthlyViewButton").addEventListener("click", () => {
     currentView = 'monthly'; // Havi nézet aktiválása
     renderCalendar();
 });
+document.addEventListener("DOMContentLoaded", renderCalendar);

@@ -8,26 +8,38 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <button id="prevMonth" class="nav-button">‹</button>
-            <h1 id="monthYear">Január 2025</h1>
-            <button id="nextMonth" class="nav-button">›</button>
+        <div class="left-side">
+            <header>
+                <div class="header-nav">
+                    <button id="prevMonth" class="nav-button">‹</button>
+                    <h1 id="monthYear">Január 2025</h1>
+                    <button id="nextMonth" class="nav-button">›</button>
+                </div>
+                <div class="view-controls">
+                    <button id="weeklyViewButton" class="view-button">Heti nézet</button>
+                    <button id="monthlyViewButton" class="view-button">Havi nézet</button>
+                    <button id="currentMonthButton" class="today-button">Aktuális hónap</button>
+                </div>
+
+                <input type="file" id="fileInput" accept=".xlsx" />
             
-        </div>
-        <input type="file" id="fileInput" accept=".xlsx" />
-        <button id="currentMonthButton" class="today-button">Aktuális hónap</button>
+            <div class="helperbox">
+                <p class="text">Jelmagyarázat:</p>
+                <button id="vacation" class="helpbutton">Szabadság</button>
+                <button id="sick" class="helpbutton">Beteg szabadság</button>
+                <button id="planned-vacation" class="helpbutton">Tervezett szabadság</button>
+            </div>
 
-        <button id="weeklyViewButton" class="view-button">Heti nézet</button>
-        <button id="monthlyViewButton" class="view-button">Havi nézet</button>
 
-        <div class="helperbox"> 
-            <text id="currentMonthButton" class="text">Jelmagyarázat:</text>
-            <button id="vacation" class="helpbutton">Szabadság</button>
-            <button id="sick" class="helpbutton">Beteg szabadság</button>
-            <button id="planned-vacation" class="helpbutton">Tervezett szabadság</button>
+            </header>
         </div>
-        <div id="calendar" class="calendar"></div>
+
+        <div class="right-side">
+            
+            <div id="calendar" class="calendar"></div>
+        </div>
     </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="index.js"></script>
 </body>
